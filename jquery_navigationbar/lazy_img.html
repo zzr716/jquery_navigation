@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>延迟加载图片</title>
+</head>
+<body>
+    <img src="http://placehold.it/770x180/FE244A/ffffff" origin-src="http://static.66cn.com/upload/20170725/1500958094335355.jpg" alt="春风十里不如你" id="big_img" />
+    <!-- 延迟加载图片，解决首屏快速加载出来，网页找开速度
+    html 会去解析img src http 请求下载 img -->
+</body>
+<script>
+    // document.ready
+    window.onload = function () {
+        // 页面已打开
+        var MyImage = (function () {
+            // 手动去下载图片
+            // 动态构造img 设置src为url img.src=url
+            // onload之后
+            // big_img.src = url就能显示要的图片
+            // 闭合空间 
+            // img 临时的
+            // var imgNode = document.createElement('img');
+            // imgNode.style.display = 'none';
+            // document.body.appendChild(imgNode);
+            var img = new Image();
+            return {
+                setSrc: function (url, ele) {
+                    img.onload = function () {
+                        console.log('图片加载完成');
+                        ele.src = url;
+                    }
+                    img.src = url;
+                }
+            }
+        })();
+        var bigPic = document.getElementById('big_img'),
+            imgSrc = bigPic.getAttribute('origin-src')
+        MyImage.setSrc(imgSrc, bigPic)
+    }
+</script>
+</html>
